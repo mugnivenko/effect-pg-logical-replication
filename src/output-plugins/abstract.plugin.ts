@@ -1,9 +1,14 @@
-import { Client } from 'pg';
+import { Effect, Scope } from "effect";
+import { Client } from "../client.js";
 
-export abstract class AbstractPlugin<OPTION = any> {
-  public constructor(public readonly options: OPTION) {}
+export abstract class AbstractPlugin<O = unknown, A = unknown, E = never> {
+  public constructor(public readonly options: O) {}
 
   public abstract get name(): string;
-  public abstract start(client: Client, slotName: string, lastLsn: string): Promise<any>;
-  public abstract parse(buffer: Buffer): any;
+  public abstract start(
+    client: Client["Service"],
+    slotName: string,
+    lastLsn: bigint,
+  ): Effect.Effect<A, E, Scope.Scope>;
+  public abstract parse(buffer: Buffer): Effect.Effect<A, E>;
 }

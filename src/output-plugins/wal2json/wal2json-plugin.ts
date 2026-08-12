@@ -1,6 +1,6 @@
-import { Client } from 'pg';
-import { AbstractPlugin } from '../abstract.plugin.js';
-import { StringOptionKeys, Wal2JsonPluginOptions } from './wal2json-plugin-options.type.js';
+import { Client } from "pg";
+import { AbstractPlugin } from "../abstract.plugin.js";
+import { StringOptionKeys, Wal2JsonPluginOptions } from "./wal2json-plugin-options.type.js";
 
 /**
  * wal2json
@@ -12,18 +12,20 @@ export class Wal2JsonPlugin extends AbstractPlugin<Wal2JsonPluginOptions> {
   }
 
   get name(): string {
-    return 'wal2json';
+    return "wal2json";
   }
 
+  // @ts-expect-error in progress
   async start(client: Client, slotName: string, lastLsn: string): Promise<any> {
     const options: string[] = [];
     Object.entries(this.options).map(([key, value]) => {
-      if (StringOptionKeys.includes(key as keyof Wal2JsonPluginOptions)) options.push(`"${dashCase(key)}" '${value}'`);
-      else options.push(`"${dashCase(key)}" '${value ? 'on' : 'off'}'`);
+      if (StringOptionKeys.includes(key as keyof Wal2JsonPluginOptions)) {
+        options.push(`"${dashCase(key)}" '${value}'`);
+      } else options.push(`"${dashCase(key)}" '${value ? "on" : "off"}'`);
     });
 
     let sql = `START_REPLICATION SLOT "${slotName}" LOGICAL ${lastLsn}`;
-    if (options.length > 0) sql += ` (${options.join(' , ')})`;
+    if (options.length > 0) sql += ` (${options.join(" , ")})`;
     // console.log(sql);
     return client.query(sql);
   }
@@ -35,5 +37,5 @@ export class Wal2JsonPlugin extends AbstractPlugin<Wal2JsonPluginOptions> {
 }
 
 function dashCase(str: string): string {
-  return (str || '').replace(/[A-Z]/g, (found: string): string => '-' + found.toLowerCase());
+  return (str || "").replace(/[A-Z]/g, (found: string): string => "-" + found.toLowerCase());
 }

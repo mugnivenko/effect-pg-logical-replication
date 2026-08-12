@@ -24,7 +24,7 @@ export declare namespace Wal2Json {
   }
 
   export interface Change {
-    kind: 'insert' | 'update' | 'delete' | 'message' | 'truncate';
+    kind: "insert" | "update" | "delete" | "message" | "truncate";
     schema: string;
     table: string;
     columnnames: string[];

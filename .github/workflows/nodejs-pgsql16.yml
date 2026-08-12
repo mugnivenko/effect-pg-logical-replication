@@ -5,7 +5,7 @@ name: Node.js(20,22,24,26) w/Postgres 16
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
 
 permissions:
@@ -33,28 +33,28 @@ jobs:
           - "5432:5432"
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - name: Info
-      run: |
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - name: Info
+        run: |
           echo "Node version: $(node -v)"
           echo "NPM version: $(npm -v)"
           echo "NPM cache: $(npm config get cache)"
-    - name: Install/Build
-      run: |
-        npm ci
-        npm run build
-    - name: Test
-      run: npm test
-    - uses: phoenix-actions/test-reporting@v8
-      if: success() || failure()
-      id: test-report
-      with:
-        name: JEST Tests (${{ matrix.node-version }}, Postgres 16)
-        path: junit.xml
-        reporter: jest-junit
-        token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install/Build
+        run: |
+          npm ci
+          npm run build
+      - name: Test
+        run: npm test
+      - uses: phoenix-actions/test-reporting@v8
+        if: success() || failure()
+        id: test-report
+        with:
+          name: JEST Tests (${{ matrix.node-version }}, Postgres 16)
+          path: junit.xml
+          reporter: jest-junit
+          token: ${{ secrets.GITHUB_TOKEN }}

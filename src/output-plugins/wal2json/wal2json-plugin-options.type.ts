@@ -120,11 +120,11 @@ export interface Wal2JsonPluginOptions {
 }
 
 export const StringOptionKeys: Array<keyof Wal2JsonPluginOptions> = [
-  'filterOrigins',
-  'filterTables',
-  'addTables',
-  'filterMsgPrefixes',
-  'addMsgPrefixes',
-  'formatVersion',
-  'actions',
+  "filterOrigins",
+  "filterTables",
+  "addTables",
+  "filterMsgPrefixes",
+  "addMsgPrefixes",
+  "formatVersion",
+  "actions",
 ];
