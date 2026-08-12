@@ -1,6 +1,6 @@
 # pg-logical-replication
 
-** Work in progress **
+**Work in progress**
 
 A complete rewrite of the pg-logical-replication library in Effect
 
